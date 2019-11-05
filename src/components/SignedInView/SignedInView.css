@@ -1,0 +1,287 @@
+.signed-in-view {
+  column-gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: repeat(2, minmax(0, auto));
+  row-gap: 8px;
+  width: 100%;
+}
+
+.header {
+  background-color: #263238;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  grid-column: 1 / 3;
+  padding: 12px 36px;
+  width: calc(1366 / 36 * 100);
+}
+
+.sidebar {
+  background-color: #263238;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  grid-column: 1 / 2;
+  height: 498px;
+  padding: 12px 0;
+  padding-left: 0;
+  width: calc(1366 / 36 * 100);
+}
+
+.main-view {
+  background-color: #263238;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  height: 498px;
+  overflow-y: scroll;
+  padding: 12px 36px;
+  width: calc(1366 / 36 * 100);
+}
+
+h1 {
+  margin: 8px 0;
+}
+
+p {
+  text-align: justify;
+}
+
+.header button {
+  float: right;
+  margin: 13px 0;
+  width: auto;
+}
+
+.header h1 {
+  display: inline-block;
+  margin: 8px 0;
+}
+
+.sidebar-labels {
+  list-style-type: none;
+  margin: 0 0 0 36px;
+  padding: 0;
+}
+
+.sidebar-label {
+  margin: 24px 0;
+}
+
+.sidebar-label .link {
+  border-left: 0 solid #001960;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 0 8px;
+  transition: 0.25s linear;
+}
+
+.sidebar-label .link:hover {
+  border-left: 3px solid #001960;
+} 
+
+.dashboard-project-details ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-project-details h1 {
+  margin-top: 0;
+}
+
+.dashboard-project-details ul li {
+  background-color: #002984;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px;
+  padding: 2px 4px;
+}
+
+.dashboard-project-details ul li:nth-child(1) {
+  margin-left: 0;
+}
+
+.overall-project-progress, .team-member-project-progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.team-member-project-progress {
+  margin-top: 16px;
+}
+
+.signed-in-view .card {
+  flex-basis: 225px;
+}
+
+.signed-in-view .card-content:nth-child(1) {
+  margin-left: 0;
+}
+
+.signed-in-view .card-content {
+  background-color: #002984;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: white;
+  height: 176.28px;
+  padding: 8px;
+}
+
+.signed-in-view h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.signed-in-view .card span {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  top: 40%;
+}
+
+svg {
+  height: 160.266px;
+  transform: rotate(-90deg);
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .signed-in-view {
+    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: 1fr;
+  }
+  .header {
+    grid-column: span 2;
+    grid-row: 1 / 2;
+    padding: 0 8px;
+    text-align: center;
+    width: calc(425 - 16) / 100;
+  }
+
+  .mobile-nav {
+    background-color: #002984;
+    border-radius: 5px;
+    float: left;
+    height: 32px;
+    margin-top: 10px;
+    padding: 4px;
+    width: 32px;
+  }
+
+  .bar {
+    background-color: white;
+    border-radius: 5px;
+    display: block;
+    height: 4px;
+    margin: 4px auto;
+    width: 28px;
+  }
+
+  .bar:nth-child(1) {
+    margin-top: 6px;
+  }
+
+  .main-view {
+    border-radius: 5px;
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    height: 100vh;
+    padding: 12px;
+  }
+
+  .sidebar {
+    box-shadow: 0 1px 20px 2px #000;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    height: 100vh;
+    transform: translateX(-110%);
+    transition: 0.5s transform;
+    width: 37.5%;
+    z-index: 1000;
+  }
+
+  .show {
+    transform: translateX(0);
+  }
+
+  .sidebar-labels {
+    list-style-type: none;
+    margin: 1% 0;
+    margin-left: 24px;
+    padding: 0;
+  }
+  
+  .sidebar-label {
+    margin: 24px 0;
+  }
+
+  .signed-in-view .card {
+    flex-basis: 180px;
+  }
+
+  svg {
+    margin-top: -32px;
+  }
+
+  svg circle {
+    transform: translateX(-55px);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header {
+    width: calc(425 - 16) / 100;
+  }
+
+  .sidebar {
+    width: 50%;
+  }
+
+  .overall-project-progress, .team-member-project-progress {
+    display: block;
+    margin: 8px 0;
+  }
+
+  .signed-in-view h3 {
+    margin: 8px;
+  }
+
+  .signed-in-view .card {
+    flex-basis: 50px;
+  }
+
+  svg {
+    transform: rotate(-90deg) translate(-3%,70%);
+    width: 152px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .sidebar {
+    width: 60%;
+  }
+
+  svg {
+    transform: rotate(-90deg) translate(-3%,55%);
+    width: 152px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .sidebar {
+    width: 60%;
+  }
+
+  svg {
+    transform: rotate(-90deg) translate(-3%,40%);
+    width: 152px;
+  }
+}
