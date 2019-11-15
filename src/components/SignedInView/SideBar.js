@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import dashboard from '../../images/dashboard.png'
+import myprogress from '../../images/myprogress.png'
+import myteam from '../../images/myteam.png'
+import documents from '../../images/documents.png'
 
 const SideBar = () => {
   const labels = [
-    { id: 0, label: 'Dashboard', to: 'dashboard' },
-    { id: 1, label: 'My Progress', to: 'myProgress' },
-    { id: 2, label: 'My Team', to: 'myTeam' },
-    { id: 3, label: 'Documents', to: 'documents'},
+    { id: 0, label: 'Dashboard', to: 'dashboard', img: dashboard},
+    { id: 1, label: 'My Progress', to: 'myProgress', img: myprogress },
+    { id: 2, label: 'My Team', to: 'myTeam', img: myteam },
+    { id: 3, label: 'Documents', to: 'documents', img: documents},
   ]
   const [show, setShow] = useState(false)
 
@@ -17,15 +21,27 @@ const handleClick = () => {
   return (
     <>
       <div className="header">
-        <div className="mobile-nav" onClick={handleClick}>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-        </div>
         <h1>Projectrack</h1>
         <button className="logoutBtn">Logout</button>
       </div>
-      <div className={ ["sidebar", show ? "show" : "hide"].join(' ') }>
+      <div className="bottom-nav">
+        <ul className="bottom-nav-icons">
+          {
+            labels.map(label => (
+              <li key={ label.id } className="bottom-nav-icon">
+                <NavLink
+                  to={`/app/${label.to}`} 
+                  className="link"
+                  activeStyle={{filter: 'invert(70%)'}}
+                  >
+                    <img alt={label.label} src={label.img} /><br/>
+                </NavLink>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div className="sidebar">
         <ul className="sidebar-labels">
           {
             labels.map(label => (

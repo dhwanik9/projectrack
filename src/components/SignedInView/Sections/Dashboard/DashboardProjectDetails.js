@@ -3,7 +3,7 @@ import React from 'react'
 const DashboardProjectDetails = () => {
   return (
     <div className="dashboard-project-details">
-      <h1>Project Title</h1>
+      <h2 className="dashboard-project-details-title">Project Title</h2>
       <p>
         Projectrack is a web application for final year students that helps them in tracking their project.
         Using this application students can define their teams, breakdown their projects in smaller tasks,

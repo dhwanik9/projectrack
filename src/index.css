@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 * {
   color: white;
-  font-family: 'Titillium Web';
+  font-family: 'Roboto';
 }
 
 body {
   background-color: #000a12;
-  height: auto;
   margin: 0;
 }
 

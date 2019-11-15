@@ -4,6 +4,8 @@ import OverallProjectProgress from './OverallProjectProgress'
 import TeamMemberProgress from './TeamMemberProgress'
 
 const Dashboard = () => {
+  document.title = "Dashboard"
+
   return (
     <div className="dashboard">
       <DashboardProjectDetails />

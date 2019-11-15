@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import InfoCards from './InfoCards/InfoCards';
 import { Link } from 'react-router-dom'
 import './styles.css'
+import FirebaseContext from '../../context/FirebaseContext'
+
 const LandingPage = () => {
+
+  const firebase = useContext(FirebaseContext)
+
+  const handleSignUp = () => {
+    firebase.authenticate()
+    .then(result => {
+      
+    })
+  }
 
   return (
     <div className="landing-page">
@@ -17,10 +28,8 @@ const LandingPage = () => {
             Sign In
           </Link>
         </button>
-        <button className="sign-up-btn">
-          <Link to="/signup" className="link">
-            Sign Up
-          </Link>
+        <button className="sign-up-btn" onClick={ handleSignUp }>
+          Sign Up
         </button>
       </div>
       <div className="info-cards">

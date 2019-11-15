@@ -1,15 +1,24 @@
 import React from 'react'
 
-const OverallProjectProgress = () => {
+const TaskProgress = () => {
   return (
     <>
-      <h2 className="overall-project-progress-title">
-          Overall Project Progress
+      <h2 className="task-progress-title" style={{marginTop: 0}}>
+          Task Progress
       </h2>
-      <div className="overall-project-progress">
+      <div className="task-progress">
+        <div className="card no-of-tasks-card">
+            <div className="card-content">
+              <span>3</span>
+            </div>
+            <div className="card-footer">
+              <h3>No. Of Tasks</h3>
+            </div>
+        </div>
+
         <div className="card completion-card">
           <div className="card-content">
-            <span>37%</span>
+            <span>25%</span>
             <svg>
               <circle 
               cx="127" 
@@ -26,7 +35,7 @@ const OverallProjectProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 37) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 25) / 100)} />
             </svg>
           </div>
           <div className="card-footer">
@@ -36,7 +45,7 @@ const OverallProjectProgress = () => {
 
         <div className="card remaining-card">
           <div className="card-content">
-            <span>63%</span>
+            <span>75%</span>
             <svg>
               <circle 
               cx="127" 
@@ -53,20 +62,11 @@ const OverallProjectProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 63) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 75) / 100)} />
             </svg>
           </div>
           <div className="card-footer">
             <h3>Remaining</h3>
-          </div>
-        </div>
-        
-        <div className="card deadline-card">
-          <div className="card-content">
-            <span>1<sup>st</sup> March 2020</span>
-          </div>
-          <div className="card-footer">
-            <h3>Deadline</h3>
           </div>
         </div>
 
@@ -83,4 +83,4 @@ const OverallProjectProgress = () => {
   )
 }
 
-export default OverallProjectProgress
+export default TaskProgress

@@ -36,7 +36,7 @@ const TeamMemberProgress = () => {
       {
         teamMembers.map((member, index) => (
           <div key={index}>
-            <h2 className="overall-project-progress-title">{member.name}'s Progress</h2>
+            <h2 className="team-member-progress-title">{member.name}'s Progress</h2>
             <div className="team-member-project-progress">
               <div className="card no-of-tasks-card">
                 <div className="card-content">
@@ -52,14 +52,14 @@ const TeamMemberProgress = () => {
                   <span>{member.taskCompleted}%</span>            
                   <svg>
                     <circle 
-                    cx="132" 
+                    cx="127" 
                     cy="80" 
                     r="60" 
                     fill="none" 
                     stroke="#001960" 
                     strokeWidth="25px" />
                     <circle 
-                    cx="132" 
+                    cx="127" 
                     cy="80" 
                     r="60" 
                     fill="none" 
@@ -79,14 +79,14 @@ const TeamMemberProgress = () => {
                   <span>{member.taskRemaining}%</span>
                   <svg>                  
                     <circle 
-                    cx="132" 
+                    cx="127" 
                     cy="80" 
                     r="60" 
                     fill="none" 
                     stroke="#001960" 
                     strokeWidth="25px" />
                     <circle 
-                    cx="132" 
+                    cx="127" 
                     cy="80" 
                     r="60" 
                     fill="none" 

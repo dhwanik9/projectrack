@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Dashboard from './Sections/Dashboard/Dashboard'
-import MyProgress from './Sections/MyProgress'
+import MyProgress from './Sections/MyProgress/MyProgress'
 import MyTeam from './Sections/MyTeam'
 import Documents from './Sections/Documents'
 

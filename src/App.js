@@ -6,7 +6,7 @@ import SignedInView from './components/SignedInView/SignedInView'
 import './index.css'
 
 function App() {
-    const [signIn, setSignIn] = useState(true)
+    const [signIn, setSignIn] = useState(false)
     const handleClick = (e) => {
         setSignIn(true)
     }
@@ -20,7 +20,6 @@ function App() {
                     </>
                 ) : (
                     <>
-                        <button onClick={handleClick}>Signin</button>
                         <Route exact path="/" component={SignedOutView} />
                         <Route path="/signup" component={SignUpView} />
                     </>
