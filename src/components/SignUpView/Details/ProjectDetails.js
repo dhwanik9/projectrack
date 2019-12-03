@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import '../SignUp.css'
 import uuid from 'uuid/v1'
+import { useHistory } from 'react-router-dom'
+import firebase from '../../../backend/firebaseConfig'
+
 const ProjectDetails = () => {
+  const history = useHistory()
+  const userData = firebase.getUserdata()
   const initialState = {
     title: '',
     description: '',
     completeBy: '',
-    teamMember1: '',
-    teamMember2: '',
-    teamMember3: '',
   }
   const [projectDetails, setProjectDetails] = useState(initialState)
   const [technologies, setTechnologies] = useState([])
   const [tech, setTech] = useState('')
   const [error, setError] = useState("")
-  const [isSubmit, setIsSubmit] = useState(false)
   
   const handleTechChange = (e) => {
     setTech(e.target.value)
@@ -67,7 +68,13 @@ const ProjectDetails = () => {
     }
     else {
       setError("")
-      setIsSubmit(true)
+      firebase.storeProjectData(userData, projectDetails, technologies, uuid())
+      .then(() => {
+        history.replace("/signup/inviteMembers")
+      })
+      .catch(error => {
+        alert(error)
+      })
     }
   }
 
@@ -84,7 +91,6 @@ const ProjectDetails = () => {
             <input 
               className="input"
               name="title"
- 
               type="text"
               value={projectDetails.title}
               onChange={handleChange}
@@ -119,33 +125,6 @@ const ProjectDetails = () => {
                 ))
               }
             </ul>
-            <label htmlFor="deadline">Team Member 1 *</label>
-            <input
-              type="text"
-              className="input"
-              name="teamMember1"
-              value={projectDetails.teamMember1}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            <label htmlFor="deadline">Team Member 2 *</label>
-            <input
-              type="text"
-              className="input"
-              name="teamMember2"
-              value={projectDetails.teamMember2}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            <label htmlFor="deadline">Team Member 3 *</label>
-            <input
-              type="text"
-              className="input"
-              name="teamMember3"
-              value={projectDetails.teamMember3}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
             <label htmlFor="description">Description *</label>
             <textarea
               className="input"
@@ -157,22 +136,11 @@ const ProjectDetails = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-          <span id="error">{error}</span>
-          {
-            isSubmit ? (
-              <button className="nextBtn" >
-                Dashboard
-                {/* <Link to="/dashboard" className="link">
-                  Dashboard
-                </Link> */}
-              </button>
-            ) : (
-              <button className="submitBtn"
-                onClick={handleClick}>
-                Submit
-              </button>
-              )
-          }
+            <span id="error">{error}</span>
+            <button className="nextBtn"
+              onClick={handleClick}>
+              Next
+            </button>
           </div>
         </div>
       </form>

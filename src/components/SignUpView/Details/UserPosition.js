@@ -1,7 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import firebase from '../../../backend/firebaseConfig'
 
-const UserPosition = () => {
+const UserPosition = (props) => {
+  const userData = firebase.getUserdata()
+
+  const teamLeader = () => {
+    firebase.db.collection("users").doc(userData.uid).update({
+      position: "Team Leader",
+      waitingInvite: false,
+    }).then(() => {
+      props.history.replace("/signUp/projectDetails")
+    }).catch(error => {
+      alert(error)
+    })
+  }
+
+  const teamMember = () => {
+    firebase.db.collection("users").doc(userData.uid).update({
+      position: "Team Member",
+      waitingInvite: true,
+    }).then(() => {
+      props.history.replace("/signUp/invitationWait")
+    }).catch(error => {
+      alert(error)
+    })
+  }
+
   return (
     <div className="user-position">
       <div className="card">
@@ -14,15 +39,14 @@ const UserPosition = () => {
         </div>
         <div className="card-content">
           <button 
-          className="team-leader">
-            <Link to="/signup/projectDetails" className="link">
-              Team Leader
-            </Link>
+          className="team-leader"
+          onClick={ teamLeader }>
+            Team Leader
           </button>
-          <button className="team-member">
-            <Link to="/signup/invitationWait" className="link">
-              Team Member
-            </Link>
+          <button 
+          className="team-member"
+          onClick={ teamMember }>
+            Team Member
           </button>
         </div>
       </div>
@@ -30,4 +54,4 @@ const UserPosition = () => {
   )
 }
 
-export default UserPosition
+export default withRouter(UserPosition)

@@ -55,6 +55,11 @@
     width: 100%;
   }
 
+  .info-cards .card h3 {
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
   .info-cards .card img {
     filter: invert(100%);
     margin-top: 4px;

@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import uuid from 'uuid/v1'
 import '../SignUp.css'
+import firebase from '../../../backend/firebaseConfig'
+
 const UserDetails = () => {
+  const history = useHistory()
   const [skills, setSkills] = useState([])
   const [skill, setSkill] = useState('')
   const [userDetails, setUserDetails] = useState({
-    name: '',
-    email: '',
     role: '',
     description: '',
   })
-  const [isSubmit, setIsSubmit] = useState(false)
   const [error, setError] = useState("")
+  const name = firebase.fetchUserData()
+  
   const handleChange = (e) => {
     const { name, value } = e.target
     setUserDetails({ ...userDetails, [name]: value })
   }
-
   const handleSkillChange = (e) => {
     setSkill(e.target.value)
   }
@@ -53,11 +54,9 @@ const UserDetails = () => {
     }
   }
 
-  const handleClick = (e) => {
+  const saveData = (e) => {
     e.preventDefault()
     if(
-      userDetails.name === "" || 
-      userDetails.email === "" ||
       userDetails.role === "" ||
       userDetails.descriptions === "" ||
       skills.length === 0) {
@@ -65,40 +64,26 @@ const UserDetails = () => {
     }
     else {
       setError("")
-      setIsSubmit(true)
+      firebase.storeUserData(userDetails, skills).then(() => {
+        history.replace("/signup/userPosition")
+      }).catch((error) => {
+        alert(error)
+      })
     }
   }
+
   return (
     <form className="user-details">
       <div className="card">
         <div className="card-header">
-          <h2 className="card-header-title">Your Details</h2>
+          <h2 className="card-header-title">Hey, { name }</h2>
           <p className="card-header-subtitle">Fill in your details below.</p>
-          <p className="card-header-subtitle">Required fields are marked with *</p>
+          <p className="card-header-subtitle">
+            Required fields are marked with *. <br />
+            <b>Do not refresh the page while setting up your account.</b>
+          </p>
         </div>
         <div className="card-content">
-          <label htmlFor="name">
-            Name *
-          </label>
-          <input
-            className="input"
-            name="name"
-            type="text"
-            value={userDetails.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <label htmlFor="email">
-            Email *
-          </label>
-          <input
-            className="input"
-            name="email"
-            type="text"
-            value={userDetails.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
           <label htmlFor="role">
             Role *
           </label>
@@ -146,20 +131,9 @@ const UserDetails = () => {
             onBlur={handleBlur}
           />
           <span id="error">{error}</span>
-          {
-            isSubmit ? (
-              <button className="nextBtn" >
-                <Link to="/signup/userPosition" className="link">
-                  Next
-                </Link>
-              </button>
-            ) : (
-              <button className="submitBtn"
-                onClick={handleClick}>
-                  Submit
-              </button>
-            )
-          }
+          <button className="nextBtn" onClick={ saveData } >
+            Next
+          </button>
         </div>
       </div>
     </form>

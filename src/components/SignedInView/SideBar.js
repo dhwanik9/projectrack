@@ -4,8 +4,10 @@ import dashboard from '../../images/dashboard.png'
 import myprogress from '../../images/myprogress.png'
 import myteam from '../../images/myteam.png'
 import documents from '../../images/documents.png'
+import firebase from '../../backend/firebaseConfig'
+import { withRouter } from 'react-router-dom'
 
-const SideBar = () => {
+const SideBar = (props) => {
   const labels = [
     { id: 0, label: 'Dashboard', to: 'dashboard', img: dashboard},
     { id: 1, label: 'My Progress', to: 'myProgress', img: myprogress },
@@ -14,15 +16,20 @@ const SideBar = () => {
   ]
   const [show, setShow] = useState(false)
 
-const handleClick = () => {
-  setShow(!show)
-}
+  const handleClick = () => {
+    setShow(!show)
+  }
+
+  const onLogout = () => {
+    firebase.signOut()
+    props.history.replace('/')
+  }
 
   return (
     <>
       <div className="header">
         <h1>Projectrack</h1>
-        <button className="logoutBtn">Logout</button>
+        <button className="logoutBtn" onClick={ onLogout }>Logout</button>
       </div>
       <div className="bottom-nav">
         <ul className="bottom-nav-icons">
@@ -63,4 +70,4 @@ const handleClick = () => {
   )
 }
 
-export default SideBar
+export default withRouter(SideBar)

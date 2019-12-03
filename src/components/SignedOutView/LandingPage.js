@@ -1,17 +1,39 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import InfoCards from './InfoCards/InfoCards';
 import { Link } from 'react-router-dom'
 import './styles.css'
-import FirebaseContext from '../../context/FirebaseContext'
+import firebase from '../../backend/firebaseConfig'
+import { useHistory } from 'react-router-dom'
 
 const LandingPage = () => {
-
-  const firebase = useContext(FirebaseContext)
+  document.title = "Projectrack"
+  const history = useHistory()
 
   const handleSignUp = () => {
     firebase.authenticate()
     .then(result => {
-      
+      const { uid, displayName, email, photoURL} = result.user
+      firebase.db.collection("users").doc(uid).set({
+        uid: uid,
+        name: displayName,
+        email: email,
+        photoUrl: photoURL,
+        accountSetUp: false,
+      })
+      .then(() => {
+        firebase.db.collection("users").doc(result.user.uid).get()
+        .then(userData => {
+          !userData.data().accountSetUp ? 
+            history.push("/signup/userDetails") :
+            history.push("/app")
+        })
+        .catch(error => {
+          history.push("/signup/userDetails")
+        })
+      })
+    })
+    .catch(error => {
+      alert(error)
     })
   }
 
