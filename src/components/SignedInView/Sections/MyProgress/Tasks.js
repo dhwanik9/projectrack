@@ -42,17 +42,17 @@ export const Tasks = ({ tasks, addTask, deleteTask, markComplete }) => {
           tasks.length > 0 ? (
             tasks.map((task, index) => (
               <div className="task" key={task.id}>
-                <h3 className="task-title">{task.title}</h3><br />
-                <p className="task-description">{task.description}</p><br />
+                <h3 className="task-title">{task.title}</h3>
+                <p className="task-description">{task.description}</p>
                 <p className="task-complete-by"><b>Complete By:</b> {task.completeBy}</p>
                 <span className="task-actions">
-                  <button style={{marginRight: 0}} className="delete-task" onClick={() => deleteTask(index)}>
-                    <img alt="Delete" src={delete_task} />
-                    Delete
-                  </button>
                   <button className="mark-done" onClick={() => markComplete(index)}>
                     <img alt="Mark as Done" src={mark_done} />
                     Mark as done
+                  </button>
+                  <button style={{marginRight: 0}} className="delete-task" onClick={() => deleteTask(index)}>
+                    <img alt="Delete" src={delete_task} />
+                    Delete
                   </button>
                 </span>
               </div>

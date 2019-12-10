@@ -1,6 +1,25 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import firebase from '../../../backend/firebaseConfig'
 
 const InvitationWait = () => {
+  const history = useHistory()
+  const uid = localStorage.getItem("uid")
+
+  const handleClick = () => {
+    firebase.db.collection("users").doc(uid).update({
+      accountSetUp: true,
+    })
+    .then(() => {
+      localStorage.setItem("accountSetUp", true)
+      localStorage.removeItem("userAt")
+      history.replace("/app")
+    })
+    .catch(error => {
+        alert(error)
+    })
+  }
+
   return (
     <div className="invitation-wait">
       <div className="card">
@@ -12,7 +31,7 @@ const InvitationWait = () => {
           </p>
         </div>
         <div className="card-content">
-          <button className="dashboard-btn">
+          <button className="dashboard-btn" onClick={ handleClick }>
             Go To Dashboard
           </button>
         </div>

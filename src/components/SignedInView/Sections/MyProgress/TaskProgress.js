@@ -1,6 +1,12 @@
 import React from 'react'
 
-const TaskProgress = () => {
+const TaskProgress = ({ tasks, completedTasks}) => {
+  const noOfTasks = tasks.length
+  const noOfCompletedTasks = completedTasks.length
+  const totalTasks = noOfTasks + noOfCompletedTasks
+  const tasksCompleted = Math.floor((noOfCompletedTasks / totalTasks) * 100)
+  const tasksRemaining = 100 - tasksCompleted
+  
   return (
     <>
       <h2 className="task-progress-title" style={{marginTop: 0}}>
@@ -9,7 +15,7 @@ const TaskProgress = () => {
       <div className="task-progress">
         <div className="card no-of-tasks-card">
             <div className="card-content">
-              <span>3</span>
+            <span>{ noOfTasks }</span>
             </div>
             <div className="card-footer">
               <h3>No. Of Tasks</h3>
@@ -18,7 +24,7 @@ const TaskProgress = () => {
 
         <div className="card completion-card">
           <div className="card-content">
-            <span>25%</span>
+            <span>{ isNaN(tasksCompleted) ? 0 : tasksCompleted }%</span>
             <svg>
               <circle 
               cx="127" 
@@ -35,7 +41,9 @@ const TaskProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 25) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - (isNaN(tasksCompleted) ? 0 : tasksCompleted)) / 100)}
+              style={{transition: '.5s stroke-dashoffset'}}
+              />
             </svg>
           </div>
           <div className="card-footer">
@@ -45,7 +53,7 @@ const TaskProgress = () => {
 
         <div className="card remaining-card">
           <div className="card-content">
-            <span>75%</span>
+            <span>{ isNaN(tasksRemaining) ? 0 : tasksRemaining }%</span>
             <svg>
               <circle 
               cx="127" 
@@ -62,7 +70,8 @@ const TaskProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 75) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - (isNaN(tasksRemaining) ? 0 : tasksRemaining)) / 100)}
+              style={{transition: '.5s stroke-dashoffset'}} />
             </svg>
           </div>
           <div className="card-footer">

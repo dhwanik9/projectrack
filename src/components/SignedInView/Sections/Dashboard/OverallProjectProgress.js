@@ -1,6 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
+import firebase from '../../../../backend/firebaseConfig'
 
-const OverallProjectProgress = () => {
+const OverallProjectProgress = ({ members }) => {
+  const [tasks, setTasks] = useState([])
+  const [completedTasks, setCompletedTasks] = useState([])
+  let noOfTasksRemaining = 0
+  let noOfTasksCompleted = 0
+  let noOfTasks = 0
+  let tasksCompleted = 0
+  let tasksRemaining = 0
+  const completeBy = localStorage.getItem("completeBy")
+
+  useEffect(() => {
+    firebase.fetchUserData(localStorage.getItem("uid"))
+    .then(() => {
+      members.map((member) => {
+        firebase.fetchTaskData(member.uid)
+        .onSnapshot(doc => {
+          const data = doc.data()
+          setTasks(t => [...t, ...data.tasks])
+        })
+        firebase.fetchCompletedTaskData(member.uid)
+        .onSnapshot(doc => {
+          const data = doc.data()
+          setCompletedTasks(t => [...t, ...data.tasks])
+        })
+        return 0
+      })
+    })
+  }, [])
+
+  noOfTasksRemaining += tasks.length
+  noOfTasksCompleted += completedTasks.length
+  noOfTasks = noOfTasksCompleted + noOfTasksRemaining
+  tasksCompleted = Math.floor((noOfTasksCompleted / noOfTasks) * 100)
+  tasksRemaining = 100 - tasksCompleted
+
   return (
     <>
       <h2 className="overall-project-progress-title">
@@ -9,7 +44,7 @@ const OverallProjectProgress = () => {
       <div className="overall-project-progress">
         <div className="card completion-card">
           <div className="card-content">
-            <span>37%</span>
+            <span>{ isNaN(tasksCompleted) ? 0 : tasksCompleted }%</span>
             <svg>
               <circle 
               cx="127" 
@@ -26,7 +61,8 @@ const OverallProjectProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 37) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - (isNaN(tasksCompleted) ? 0 : tasksCompleted)) / 100)}
+              style={{transition: '.5s stroke-dashoffset'}} />
             </svg>
           </div>
           <div className="card-footer">
@@ -36,7 +72,7 @@ const OverallProjectProgress = () => {
 
         <div className="card remaining-card">
           <div className="card-content">
-            <span>63%</span>
+            <span>{ isNaN(tasksRemaining) ? 0 : tasksRemaining }%</span>
             <svg>
               <circle 
               cx="127" 
@@ -53,7 +89,8 @@ const OverallProjectProgress = () => {
               stroke="#fff" 
               strokeWidth="25px"
               strokeDasharray="376.8"
-              strokeDashoffset={(2 * 3.14 * 60) * ((100 - 63) / 100)} />
+              strokeDashoffset={(2 * 3.14 * 60) * ((100 - (isNaN(tasksRemaining) ? 0 : tasksRemaining)) / 100)}
+              style={{transition: '.5s stroke-dashoffset'}} />
             </svg>
           </div>
           <div className="card-footer">
@@ -63,7 +100,7 @@ const OverallProjectProgress = () => {
         
         <div className="card deadline-card">
           <div className="card-content">
-            <span>1<sup>st</sup> March 2020</span>
+            <span>{ completeBy }</span>
           </div>
           <div className="card-footer">
             <h3>Deadline</h3>

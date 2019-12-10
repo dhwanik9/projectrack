@@ -1,6 +1,7 @@
-import app from 'firebase/app'
+import app, { firestore, storage } from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
+import 'firebase/firebase-storage'
 
 
 const firebaseConfig = {
@@ -20,6 +21,10 @@ class Firebase {
     this.auth = app.auth()
     this.provider = new app.auth.GoogleAuthProvider()
     this.db = app.firestore()
+    this.storage = storage()
+    this.storageRef = app.storage()
+    this.ref = this.storageRef.ref()
+
   }
 
   authenticate = () => this.auth.signInWithPopup(this.provider)
@@ -28,29 +33,24 @@ class Firebase {
     return this.auth.currentUser ? true : false
   }
 
-  getUserdata = () => {
-    const userData = {
-      uid: this.auth.currentUser.uid,
-      name: this.auth.currentUser.displayName,
-      email: this.auth.currentUser.email,
-      photoUrl: this.auth.currentUser.photoURL
-    }
-    return userData
-  }
-
   signOut = () => this.auth.signOut()
 
-  storeUserData = ( userDetails, skills ) =>
-    this.db.collection("users").doc(this.auth.currentUser.uid).update({
+  storeUserData = ( user, userDetails, skills ) =>
+    this.db.collection("users").doc(user.uid).set({
+      uid: user.uid,
+      name: user.name,
+      email: user.email,
+      photoUrl: user.photoUrl,
       role: userDetails.role,
       description: userDetails.description,
       skills,
+      accountSetUp: false,
     })
 
-  storeProjectData = ( userData, projectDetails, technologies, uuid ) =>
-    this.db.collection("projects").doc(userData.uid).set({
+  storeProjectData = ( uid, projectDetails, technologies, uuid ) =>
+    this.db.collection("projects").doc(uid).set({
       pid: uuid,
-      createdBy: userData.uid,
+      createdBy: uid,
       title: projectDetails.title,
       description: projectDetails.description,
       completeBy: projectDetails.completeBy,
@@ -58,18 +58,54 @@ class Firebase {
       remaining: 0,
       technologies,
     })
+  
+  storeTaskData = (uid) => 
+    this.db.collection("tasks").doc(uid).set({
+      tasks: []
+    })
 
-  fetchUserData = () => {
-    let name = ""
-    this.db.collection("users").doc(this.auth.currentUser.uid).get()
-    .then(data => {
-      name = data.data().name
+  updateTaskData = (uid, tasks) => 
+    this.db.collection("tasks").doc(uid).update({
+      tasks: firestore.FieldValue.arrayUnion(tasks)
     })
-    .catch(error => {
-      alert(error)
+  
+  storeCompletedTaskData = (uid) =>
+    this.db.collection("completedTasks").doc(uid).set({
+      tasks: []
     })
-    return name
-  }
+
+  updateCompletedTaskData = (uid, tasks) =>
+    this.db.collection("completedTasks").doc(uid).update({
+      tasks: firestore.FieldValue.arrayUnion(tasks)
+    }) 
+    
+  storeDocumentData = (uid) =>
+    this.db.collection("documents").doc(uid).set({
+      documents: []
+    })
+
+  updateDocumentData = (uid, file) =>
+    this.db.collection("documents").doc(uid).update({
+      documents: firestore.FieldValue.arrayUnion(file)
+    })
+
+  fetchUserData = (uid) => 
+    this.db.collection("users").doc(uid).get()
+
+  fetchProjectData = (uid) => 
+    this.db.collection("projects").doc(uid).get()
+
+  fetchTeamData = (tid) => 
+    this.db.collection("teams").doc(tid).get()
+
+  fetchTaskData = (uid) => 
+    this.db.collection("tasks").doc(uid)
+
+  fetchCompletedTaskData = (uid) => 
+    this.db.collection("completedTasks").doc(uid)
+
+  fetchDocumentData = (uid) =>
+  this.db.collection("documents").doc(uid)
 
 }
 

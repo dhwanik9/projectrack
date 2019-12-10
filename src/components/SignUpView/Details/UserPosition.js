@@ -1,27 +1,42 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import firebase from '../../../backend/firebaseConfig'
 
-const UserPosition = (props) => {
-  const userData = firebase.getUserdata()
+const UserPosition = () => {
+  const uid = localStorage.getItem("uid")
+  const history = useHistory()
 
   const teamLeader = () => {
-    firebase.db.collection("users").doc(userData.uid).update({
+    firebase.db.collection("users").doc(uid).update({
       position: "Team Leader",
       waitingInvite: false,
+      tid: uid,
+      pid: uid
     }).then(() => {
-      props.history.replace("/signUp/projectDetails")
+        firebase.db.collection("teams").doc(uid).set({
+          tid: uid,
+          teamMembers: [uid],
+        }).catch(error => {
+          alert(error)
+        })
+      }).then(() => {
+        localStorage.setItem("userAt", "projectDetails")
+        history.push("/signUp/projectDetails")
+      }).catch(error => {
+        alert(error)
     }).catch(error => {
       alert(error)
     })
   }
 
   const teamMember = () => {
-    firebase.db.collection("users").doc(userData.uid).update({
+    firebase.db.collection("users").doc(uid).update({
       position: "Team Member",
       waitingInvite: true,
     }).then(() => {
-      props.history.replace("/signUp/invitationWait")
+      firebase.fetchUserData(localStorage.getItem("uid"))
+      localStorage.setItem("userAt", "invitationWait")
+      history.push("/signUp/invitationWait")
     }).catch(error => {
       alert(error)
     })
@@ -54,4 +69,4 @@ const UserPosition = (props) => {
   )
 }
 
-export default withRouter(UserPosition)
+export default UserPosition

@@ -47,6 +47,12 @@
   grid-row: 2 / 3;
 }
 
+.details .card-footer {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+  margin-bottom: 8px;
+}
+
 #tech-used, #skills {
   display: inline-block;
   margin-bottom: 2px;
@@ -88,11 +94,11 @@
 }
 
 .error {
-  border: 3px solid #ab000d;
+  border: 3px solid #c62828;
 }
 
 #error {
-  color: #ab000d;
+  color: #e53935;
   font-weight: bold;
   text-align: center;
 }
@@ -114,6 +120,18 @@
   display: block;
   margin: 8px auto;
   width: 100%;
+}
+
+.invite-members p {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.token {
+  background: #1b5e20;
+  border-radius: 5px;
+  display: block;
+  padding: 4px;
 }
 
 @keyframes fadeIn {

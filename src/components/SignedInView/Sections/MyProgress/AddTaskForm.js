@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import uuid from 'uuid/v1'
+import firebase from '../../../../backend/firebaseConfig'
 
-export const AddTaskForm = ({ closeModal, addTask }) => {
+export const AddTaskForm = ({ closeModal }) => {
   const initialState = {
     id: '',
     title: '',
     description: '',
-    completeBy: ''
+    completeBy: '',
+    completed: false,
   }
   const [taskDetails, setTaskDetails] = useState(initialState)
   const [error, setError] = useState("")
+  const uid = localStorage.getItem("uid")
   
   const handleChange = (e) => {
     const {name, value} = e.target
@@ -35,9 +38,13 @@ export const AddTaskForm = ({ closeModal, addTask }) => {
       setError("All the fields are required")
     }
     else {
-      addTask(taskDetails)
       closeModal()
-      setTaskDetails({title: '', description: '', completeBy: ''})
+      firebase.updateTaskData(uid, taskDetails)
+      .then(() => {
+        setTaskDetails({title: '', description: '', completeBy: ''})
+      }).catch(er => {
+        alert(er)
+      })
     }
   }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import TaskProgress from './TaskProgress'
 import MyTasks from './MyTasks'
 
 const MyProgress = () => {
@@ -7,7 +6,6 @@ const MyProgress = () => {
 
   return (
     <div className="my-progress">
-      <TaskProgress />
       <MyTasks />
     </div>
   )

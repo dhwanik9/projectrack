@@ -2,20 +2,28 @@ import React from 'react'
 import SideBar from './SideBar'
 import MainView from './MainView'
 import './SignedInView.css'
-import firebase from '../../backend/firebaseConfig'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 const SignedInView = () => {
-  const { history } = useHistory()
+  const uid = localStorage.getItem("uid")
+  const accountSetUp = localStorage.getItem("accountSetUp")
 
-  if(!firebase.getUserId()) {
-    history.replace('/')
-  }
+  /* if ( !uid || accountSetUp === "false" )
+    history.replace("/") */
 
   return (
     <div className="signed-in-view">
-      <SideBar />
-      <MainView />
+      {
+        uid && accountSetUp === "true" ?
+          (
+            <>
+              <SideBar />
+              <MainView />
+            </>
+          ) : (
+            <Redirect to="/" />
+          )
+      }
     </div>
   )
 }

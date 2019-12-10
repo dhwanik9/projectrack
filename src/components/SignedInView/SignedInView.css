@@ -1,5 +1,6 @@
 .dashboard,
-.my-progress {
+.my-progress,
+.my-team {
   animation: fadeIn linear 500ms;
 }
 
@@ -38,6 +39,17 @@
   padding: 12px 0;
   padding-left: 0;
   width: calc(1366 / 36 * 100);
+}
+
+.signed-in-view .invitation-wait button, .code-input {
+  width: auto;
+}
+
+.header img {
+  border-radius: 5px;
+  box-shadow: 0 0 10px 5px #1d262b;
+  float: right;
+  margin: 13px 0 0 16px;
 }
 
 .bottom-nav {
@@ -123,7 +135,7 @@ p {
   margin-top: 16px;
 }
 
-.dashboard-project-details ul li {
+.dashboard-project-details ul li, .profile-card ul li {
   background-color: #002984;
   border-radius: 5px;
   display: inline-block;
@@ -224,7 +236,7 @@ svg {
   background: #263238;
   border-radius: 5px;
   left: 45.25%;
-  padding: 8px;
+  padding: 12px 16px;
   position: relative;
   top: 24.5%;
   width: 444px;
@@ -243,7 +255,7 @@ svg {
 
 .close-btn {
   background: #ab000d;
-  border-radius: 100%;
+  border-radius: 5px;
   cursor: pointer;
   float: right;
   margin: 0;
@@ -270,15 +282,18 @@ svg {
 .task {
   background: #002984;
   border-radius: 5px;
-  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, auto);
+  margin-bottom: 10px;
   padding: 8px;
-  width: 48%;
+  width: 47.75%;
 }
 
 .task h3, .task p {
-  display: inline-block;
   margin: 0;
   text-align: left;
+  word-break: break-all;
 }
 
 .task .task-description {
@@ -296,9 +311,8 @@ svg {
 .task button {
   background: #005005;
   border-radius: 5px;
-  float: right;
-  margin: 0 4px;
-  margin-top: -8px;
+  display: inline-block;
+  margin: 8px 8px 0 0;
   width: auto;
 }
 
@@ -314,6 +328,67 @@ svg {
   background: #8e0000;
 }
 
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.profile-card {
+  background: #002984;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  padding: 8px;
+  width: 47.5%;
+}
+
+.profile-card img {
+  border-radius: 5px;
+  filter: invert(0);
+  height: 80px;
+  margin: 4px;
+  width: 80px;
+}
+
+.profile-card ul {
+  padding: 0;
+}
+
+.profile-card h3, .profile-card p {
+  margin-left: 4px;
+  text-align: left;
+}
+
+.upload-document {
+  border: none;
+  display: inline-block;
+  transition: none;
+  width: auto;
+}
+
+.upload-documents input:focus {
+  border: none;
+}
+
+.upload-documents input[type="file"] {
+  background: #001960;
+}
+
+.document-link {
+  background: #002984;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 8px 8px 0 0;
+  padding: 16px;
+  text-decoration: none;
+  transition: 0.25s linear;
+}
+
+.document-link:hover {
+  background: #001960;
+}
+
 @media screen and (max-width: 768px) {
   body {
     height: 110vh;
@@ -325,8 +400,9 @@ svg {
   }
 
   .header {
-    margin-bottom: 8px;
+    box-shadow: 0 0 20px 3.75px #1d262b;
     padding: 0 8px;
+    position: fixed;
     width: 100%;
     z-index: 1000;
   }
@@ -334,7 +410,9 @@ svg {
   .main-view {
     border-radius: 5px;
     height: 88vh;
+    margin-top: 64px;
     padding: 12px;
+    width: 99%;
   }
 
   .bottom-nav {
@@ -345,10 +423,10 @@ svg {
     display: block;
     padding: 0 8px;
     position: fixed;
-    width: 96%;
+    width: 99%;
     z-index: 1000;
   }
-
+  
   .bottom-nav-icons {
     display: flex;
     justify-content: space-around;
@@ -400,32 +478,20 @@ svg {
     height: 100vh;
   }
 
+  .task {
+    width: 47.25%;
+  }
+
   .modal-box {
     left: 0;
     margin: 0 auto;
     top: 29%;
     width: 90%;
   }
-
-  .task {
-    background: #002984;
-    border-radius: 5px;
-    margin-bottom: 6px;
-    padding: 8px;
+  
+  .profile-card {
+    margin-bottom: 16px;
     width: 47%;
-  }
-
-  .task-actions {
-    display: block;
-    float: right;
-  }
-
-  .task button {
-    margin-top: 8px;
-  }
-
-  .task .mark-done {
-    margin-left: 0;
   }
 }
 
@@ -438,8 +504,20 @@ svg {
     width: 75%;
   }
 
+  .main-view {
+    width: 94.1%;
+  }
+
   .task {
     width: 100%;
+  }
+
+  .profile-card {
+    width: 100%;
+  }
+
+  .profile-container {
+    flex-direction: row;
   }
 }
 
@@ -458,6 +536,14 @@ svg {
   .team-member-project-progress,
   .task-progress {
     display: block;
+  }
+
+  .main-view {
+    width: 97.5%;
+  }
+
+  .header {
+    width: 94.5%;
   }
 
   svg {

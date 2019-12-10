@@ -13,8 +13,13 @@ const UserDetails = () => {
     description: '',
   })
   const [error, setError] = useState("")
-  const name = firebase.fetchUserData()
-  
+  const user = {
+    uid: localStorage.getItem("uid"),
+    name: localStorage.getItem("name"),
+    email: localStorage.getItem("email"),
+    photoUrl: localStorage.getItem("photoUrl"),
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setUserDetails({ ...userDetails, [name]: value })
@@ -64,19 +69,37 @@ const UserDetails = () => {
     }
     else {
       setError("")
-      firebase.storeUserData(userDetails, skills).then(() => {
-        history.replace("/signup/userPosition")
+      firebase.storeUserData(user, userDetails, skills)
+      .then(() => {
+        firebase.storeTaskData(user.uid)
+        .then(() => {
+          firebase.storeCompletedTaskData(user.uid)
+          .then(() => {
+            firebase.storeDocumentData(user.uid)
+            .then(() => {
+              localStorage.setItem("userAt","userPosition")
+              if(user.uid)
+                history.replace("/signup/userPosition")
+            }).catch(er => {
+              alert(er)
+            })
+          }).catch(er => {
+            alert(er)
+          })
+        }).catch(er => {
+          alert(er)
+        })
       }).catch((error) => {
         alert(error)
       })
     }
   }
-
+  
   return (
     <form className="user-details">
       <div className="card">
         <div className="card-header">
-          <h2 className="card-header-title">Hey, { name }</h2>
+          <h2 className="card-header-title">Hey, { user.name }</h2>
           <p className="card-header-subtitle">Fill in your details below.</p>
           <p className="card-header-subtitle">
             Required fields are marked with *. <br />
@@ -104,7 +127,6 @@ const UserDetails = () => {
             name="skill"
             value={skill}
             onChange={handleSkillChange}
-            onBlur={handleBlur}
           />
           <button onClick={handleSkillClick} id="addBtn">Add</button>
           <ul>

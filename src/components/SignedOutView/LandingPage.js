@@ -1,38 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InfoCards from './InfoCards/InfoCards';
-import { Link } from 'react-router-dom'
 import './styles.css'
 import firebase from '../../backend/firebaseConfig'
 import { useHistory } from 'react-router-dom'
+import google from '../../images/google.png'
+import { CircularProgress } from '@rmwc/circular-progress'
+import '@rmwc/circular-progress/circular-progress.css'
 
 const LandingPage = () => {
   document.title = "Projectrack"
   const history = useHistory()
+  const [ loading, setLoading ] = useState(false)
 
   const handleSignUp = () => {
+    setLoading(true)
     firebase.authenticate()
     .then(result => {
-      const { uid, displayName, email, photoURL} = result.user
-      firebase.db.collection("users").doc(uid).set({
-        uid: uid,
-        name: displayName,
-        email: email,
-        photoUrl: photoURL,
-        accountSetUp: false,
+      const { uid, displayName, email, photoURL } = result.user
+      localStorage.setItem("uid", uid)
+      localStorage.setItem("name", displayName)
+      localStorage.setItem("email", email)
+      localStorage.setItem("photoUrl", photoURL)
+      firebase.db.collection("users").doc(result.user.uid).get()
+      .then(userData => {
+        if(!userData.data().accountSetUp) {
+          localStorage.setItem("accountSetUp", false)
+          if ( localStorage.getItem("userAt") )
+            history.replace(`/signup/${ localStorage.getItem("userAt") }`)
+          else {
+            history.replace("/signup/userDetails")
+          }
+        }
+        else {
+          localStorage.setItem("accountSetUp", true)
+          history.replace("/app")
+        }
       })
-      .then(() => {
-        firebase.db.collection("users").doc(result.user.uid).get()
-        .then(userData => {
-          !userData.data().accountSetUp ? 
-            history.push("/signup/userDetails") :
-            history.push("/app")
-        })
-        .catch(error => {
-          history.push("/signup/userDetails")
-        })
+      .catch(error => {
+        history.replace("/signup/userDetails")
+        localStorage.setItem("accountSetUp", false)
       })
     })
     .catch(error => {
+      setLoading(false)
       alert(error)
     })
   }
@@ -42,17 +52,19 @@ const LandingPage = () => {
       <div className="getting-started">
         <h1 className="title">Welcome to Projectrack</h1>
         <p className="subtitle">
-          A simple yet useful app for managing your projects. <br></br>
+          A simple & useful tool for managing your projects. <br></br>
           Sign up to get started or sign in if you've already signed up.
         </p>
-        <button className="sign-in-btn">
-          <Link to="/signin" className="link">
-            Sign In
-          </Link>
-        </button>
-        <button className="sign-up-btn" onClick={ handleSignUp }>
-          Sign Up
-        </button>
+        {
+          !loading ? (
+            <button className="sign-in-btn" onClick={ handleSignUp }>
+              <img src={ google } alt="Google" height="28" width="28" />
+              Sign In
+            </button>
+          ) : (
+            <CircularProgress className="sign-in-btn" />
+          )
+        }
       </div>
       <div className="info-cards">
         <InfoCards />

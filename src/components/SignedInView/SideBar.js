@@ -5,9 +5,10 @@ import myprogress from '../../images/myprogress.png'
 import myteam from '../../images/myteam.png'
 import documents from '../../images/documents.png'
 import firebase from '../../backend/firebaseConfig'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-const SideBar = (props) => {
+const SideBar = () => {
+  const history = useHistory()
   const labels = [
     { id: 0, label: 'Dashboard', to: 'dashboard', img: dashboard},
     { id: 1, label: 'My Progress', to: 'myProgress', img: myprogress },
@@ -21,14 +22,16 @@ const SideBar = (props) => {
   }
 
   const onLogout = () => {
+    localStorage.clear()
     firebase.signOut()
-    props.history.replace('/')
+    history.replace('/')
   }
 
   return (
     <>
       <div className="header">
         <h1>Projectrack</h1>
+        <img src={ localStorage.getItem("photoUrl") } alt={ localStorage.getItem("name")} height="32" width="32" style={{ filter: 'invert(0)' }} />
         <button className="logoutBtn" onClick={ onLogout }>Logout</button>
       </div>
       <div className="bottom-nav">
@@ -70,4 +73,4 @@ const SideBar = (props) => {
   )
 }
 
-export default withRouter(SideBar)
+export default SideBar

@@ -1,20 +1,19 @@
 import React from 'react'
 
-const DashboardProjectDetails = () => {
+const DashboardProjectDetails = ({ project }) => {
+
   return (
     <div className="dashboard-project-details">
-      <h2 className="dashboard-project-details-title">Project Title</h2>
+    <h2 className="dashboard-project-details-title">{ project.title }</h2>
       <p>
-        Projectrack is a web application for final year students that helps them in tracking their project.
-        Using this application students can define their teams, breakdown their projects in smaller tasks,
-        and those tasks are assigned to each team member. Additionally, team members can upload
-        documents in PDF format, related to project, such as DFDs, Flowcharts, etc.
+        { project.description }
       </p>
       <ul>
-        <li>CSS</li>
-        <li>HTML</li>
-        <li>Firebase</li>
-        <li>React</li>
+        {
+          project.technologies.map(tech => (
+            <li key={ tech.id }>{ tech.tech }</li>
+          ))
+        }
       </ul>
     </div>
   )

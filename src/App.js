@@ -5,17 +5,21 @@ import SignUpView from './components/SignUpView/SignUpView'
 import SignedInView from './components/SignedInView/SignedInView'
 import './index.css'
 
-function App(props) {
+function App() {
     
-    return (
-        <div className="App">
-            <Switch>
-                <Route exact path="/" component={ SignedOutView } />
-                <Route path="/signup" component={ SignUpView } />
-                <Route path="/app" component={ SignedInView } />
-            </Switch>
-        </div>
-    )
+  return (
+    <div className="App">
+      <Switch>
+        {
+          localStorage.getItem("uid") && localStorage.getItem("accountSetUp") === "true" ?
+            (<Route exact path="/" component={ SignedInView } />) :
+            (<Route exact path="/" component={ SignedOutView } />)
+        }
+        <Route path="/signup" component={ SignUpView } />
+        <Route path="/app" component={ SignedInView } />
+      </Switch>
+    </div>
+  )
 }
 
 export default App

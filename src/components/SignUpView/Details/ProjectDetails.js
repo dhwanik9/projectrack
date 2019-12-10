@@ -6,7 +6,6 @@ import firebase from '../../../backend/firebaseConfig'
 
 const ProjectDetails = () => {
   const history = useHistory()
-  const userData = firebase.getUserdata()
   const initialState = {
     title: '',
     description: '',
@@ -16,6 +15,7 @@ const ProjectDetails = () => {
   const [technologies, setTechnologies] = useState([])
   const [tech, setTech] = useState('')
   const [error, setError] = useState("")
+  const uid = localStorage.getItem("uid")
   
   const handleTechChange = (e) => {
     setTech(e.target.value)
@@ -68,8 +68,9 @@ const ProjectDetails = () => {
     }
     else {
       setError("")
-      firebase.storeProjectData(userData, projectDetails, technologies, uuid())
+      firebase.storeProjectData(uid, projectDetails, technologies, uuid())
       .then(() => {
+        localStorage.setItem("userAt", "inviteMembers")
         history.replace("/signup/inviteMembers")
       })
       .catch(error => {

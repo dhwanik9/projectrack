@@ -8,7 +8,7 @@ const SignUpView = () => {
 
   if(!firebase.getUserId()) {
     history.replace('/')
-  }
+  } 
 
   return (
     <Details />
