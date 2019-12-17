@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom'
 import uuid from 'uuid/v1'
 import '../SignUp.css'
 import firebase from '../../../backend/firebaseConfig'
+import { CircularProgress } from "@rmwc/circular-progress"
+import '@rmwc/circular-progress/circular-progress.css'
 
 const UserDetails = () => {
   const history = useHistory()
@@ -13,6 +15,7 @@ const UserDetails = () => {
     description: '',
   })
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const user = {
     uid: localStorage.getItem("uid"),
     name: localStorage.getItem("name"),
@@ -24,6 +27,7 @@ const UserDetails = () => {
     const { name, value } = e.target
     setUserDetails({ ...userDetails, [name]: value })
   }
+
   const handleSkillChange = (e) => {
     setSkill(e.target.value)
   }
@@ -38,14 +42,9 @@ const UserDetails = () => {
     )
   }
   const handleSkillClick = (e) => {
-    const skillInput = document.getElementById("skills")
     e.preventDefault()
     if (skill)
       addSkill(skill)
-    else {
-      skillInput.className = "error"
-      skillInput.placeholder = "Please input something"
-    }
     setSkill('')
   }
 
@@ -63,12 +62,13 @@ const UserDetails = () => {
     e.preventDefault()
     if(
       userDetails.role === "" ||
-      userDetails.descriptions === "" ||
+      userDetails.description === "" ||
       skills.length === 0) {
       setError("All the fields are required")
     }
     else {
       setError("")
+      setIsLoading(true)
       firebase.storeUserData(user, userDetails, skills)
       .then(() => {
         firebase.storeTaskData(user.uid)
@@ -78,6 +78,7 @@ const UserDetails = () => {
             firebase.storeDocumentData(user.uid)
             .then(() => {
               localStorage.setItem("userAt","userPosition")
+              setIsLoading(false)
               if(user.uid)
                 history.replace("/signup/userPosition")
             }).catch(er => {
@@ -153,9 +154,15 @@ const UserDetails = () => {
             onBlur={handleBlur}
           />
           <span id="error">{error}</span>
-          <button className="nextBtn" onClick={ saveData } >
-            Next
-          </button>
+          {
+            isLoading ? (
+              <CircularProgress />
+            ) : (
+              <button className="nextBtn" onClick={ saveData } >
+                Next
+              </button>
+            )
+          }
         </div>
       </div>
     </form>

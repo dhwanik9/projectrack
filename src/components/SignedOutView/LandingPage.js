@@ -58,7 +58,7 @@ const LandingPage = () => {
         {
           !loading ? (
             <button className="sign-in-btn" onClick={ handleSignUp }>
-              <img src={ google } alt="Google" height="28" width="28" />
+              <img src={ google } alt="Google" />
               Sign In
             </button>
           ) : (

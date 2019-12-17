@@ -6,6 +6,7 @@ import myteam from '../../images/myteam.png'
 import documents from '../../images/documents.png'
 import firebase from '../../backend/firebaseConfig'
 import { useHistory } from 'react-router-dom'
+import logout from '../../images/logout.png'
 
 const SideBar = () => {
   const history = useHistory()
@@ -31,8 +32,17 @@ const SideBar = () => {
     <>
       <div className="header">
         <h1>Projectrack</h1>
-        <img src={ localStorage.getItem("photoUrl") } alt={ localStorage.getItem("name")} height="32" width="32" style={{ filter: 'invert(0)' }} />
-        <button className="logoutBtn" onClick={ onLogout }>Logout</button>
+        <img 
+          src={ localStorage.getItem("photoUrl") } 
+          alt={ localStorage.getItem("name")} 
+          height="32" 
+          width="32" 
+          style={{ filter: 'invert(0)' }} />
+        <img 
+          src={ logout } 
+          alt="Logout" 
+          onClick={ onLogout } 
+          style={{ height: '24px', width: '24px', boxShadow: 'none', marginTop: '16px' }} />
       </div>
       <div className="bottom-nav">
         <ul className="bottom-nav-icons">

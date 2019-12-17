@@ -29,13 +29,13 @@ const InviteMembers = () => {
       <div className="card-content">
         <p>
           <span className="token">{ uid }</span> <br />
-          This is you invitation token. 
-          Share it with you teammates to invite them to your team.
+          This is the invitation code for your team members. 
+          Share it with your teammates to invite them to your team.
         </p>
       </div>
       <div className="card-footer">
         <button className="dashboard-btn" onClick={ handleClick }>
-          Go To Dashboard
+          Finish Setup
         </button>
       </div>
     </div>

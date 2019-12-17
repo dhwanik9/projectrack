@@ -37,7 +37,7 @@ const TeamMemberProgress = ({ members, tasks, completedTasks }) => {
                     stroke="#fff" 
                     strokeWidth="25px"
                     strokeDasharray="376.8"
-                    strokeDashoffset={(2 * 3.14 * 60) * ((100 - ( Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100))) / 100)}
+                    strokeDashoffset={(2 * 3.14 * 60) * ((100 - ( isNaN(Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100)) ? 0 : Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100))) / 100)}
                     style={{transition: '.5s stroke-dashoffset'}} />
                   </svg>
                 </div>
@@ -65,7 +65,7 @@ const TeamMemberProgress = ({ members, tasks, completedTasks }) => {
                     stroke="#fff" 
                     strokeWidth="25px"
                     strokeDasharray="376.8"
-                    strokeDashoffset={(2 * 3.14 * 60) * ((100 - (100 - (Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100)))) / 100)}
+                    strokeDashoffset={(2 * 3.14 * 60) * ((100 - (isNaN(100 - (Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100))) ? 0 : 100 - (Math.floor((completedTasks[index].tasks.length / (completedTasks[index].tasks.length + tasks[index].tasks.length)) * 100)))) / 100)}
                     style={{transition: '.5s stroke-dashoffset'}} />
                   </svg>
                 </div>
@@ -76,7 +76,7 @@ const TeamMemberProgress = ({ members, tasks, completedTasks }) => {
               
               <div className="card eta-card">
                 <div className="card-content">
-                  <span>1<sup>st</sup> March 2020</span>
+                  <span>{ member.tasksEta }</span>
                 </div>
                 <div className="card-footer">
                   <h3>Task ETA</h3>

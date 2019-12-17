@@ -27,7 +27,8 @@ const Dashboard = () => {
           title: doc.data().title,
           description: doc.data().description,
           technologies: doc.data().technologies,
-          completeBy: doc.data().completeBy
+          completeBy: doc.data().completeBy,
+          createdBy: doc.data().createdBy,
         }
         localStorage.setItem("completeBy", doc.data().completeBy)
         setProject(data)

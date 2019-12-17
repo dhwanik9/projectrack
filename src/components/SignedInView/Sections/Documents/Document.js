@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import firebase from '../../../../backend/firebaseConfig'
+import back from '../../../../images/back.png'
+import { Link } from 'react-router-dom'
 
 const Document = ({ member }) => {
   const [documents, setDocuments] = useState([])
@@ -23,8 +25,11 @@ const Document = ({ member }) => {
   }
 
   return (
-    <>
-      <h2 style={{marginTop: 0}}>{member.name}</h2>
+    <div className="document">
+      <Link to="/app/documents">
+        <img src={back} alt="Go Back" style={{height: '24px', width: '24px', marginRight: '24px', marginBottom: '-4px'}} />
+      </Link>
+      <h2 style={{marginTop: 0, display: 'inline-block'}}>{member.name}</h2>
       <div>
         {
           documentUrl.map(url => (
@@ -41,7 +46,7 @@ const Document = ({ member }) => {
           ))
         }
       </div>
-    </>
+    </div>
   )
 }
 

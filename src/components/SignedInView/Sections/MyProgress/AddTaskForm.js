@@ -8,7 +8,7 @@ export const AddTaskForm = ({ closeModal }) => {
     title: '',
     description: '',
     completeBy: '',
-    completed: false,
+    createdAt: new Date().toLocaleDateString()
   }
   const [taskDetails, setTaskDetails] = useState(initialState)
   const [error, setError] = useState("")

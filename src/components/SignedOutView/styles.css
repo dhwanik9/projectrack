@@ -31,8 +31,9 @@
   }
 
   .sign-in-btn img {
+    filter: invert(100%);
     margin-right: 12px;
-    vertical-align: -9px;
+    vertical-align: -8px;
   }
 
   .info-cards {

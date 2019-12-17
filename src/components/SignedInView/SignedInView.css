@@ -1,14 +1,18 @@
 .dashboard,
 .my-progress,
-.my-team {
-  animation: fadeIn linear 500ms;
+.my-team,
+.documents,
+.document {
+  animation: fadeIn ease-in-out 500ms;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(1%);
   } to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -81,12 +85,6 @@ h1 {
 
 p {
   text-align: justify;
-}
-
-.header button {
-  float: right;
-  margin: 13px 0;
-  width: auto;
 }
 
 .header h1 {

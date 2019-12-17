@@ -26,13 +26,13 @@ const InvitationWait = () => {
         <div className="card-header">
           <h3 className="card-header-title">Wait For Your Invitation</h3>
           <p className="card-header-subtitle">
-            Wait for the team leader to send you the invitation. 
-            If you think you have already been invited then check you mail box for the invitaton.
+            Wait for your team leader to send you the invitation coede.
+            You won't be able to use Projectrack until you accept the invitation. 
           </p>
         </div>
         <div className="card-content">
           <button className="dashboard-btn" onClick={ handleClick }>
-            Go To Dashboard
+            Finish Setup
           </button>
         </div>
       </div>

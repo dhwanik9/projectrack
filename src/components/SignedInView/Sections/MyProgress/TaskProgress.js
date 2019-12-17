@@ -1,4 +1,6 @@
 import React from 'react'
+import moment from 'moment'
+import firebase from '../../../../backend/firebaseConfig'
 
 const TaskProgress = ({ tasks, completedTasks}) => {
   const noOfTasks = tasks.length
@@ -6,7 +8,28 @@ const TaskProgress = ({ tasks, completedTasks}) => {
   const totalTasks = noOfTasks + noOfCompletedTasks
   const tasksCompleted = Math.floor((noOfCompletedTasks / totalTasks) * 100)
   const tasksRemaining = 100 - tasksCompleted
-  
+  let createdAtDay = 0
+  let createdAtMonth = 0
+  let completedAtDay = 0
+  let completedAtMonth = 0
+  let days = 0
+  let months = 0
+  let etaDays = 0
+  completedTasks.forEach(task => {
+    createdAtDay = task.createdAt.split("/")[1]
+    createdAtMonth = task.createdAt.split("/")[0]
+    completedAtDay = task.completedAt.split("/")[1]
+    completedAtMonth = task.completedAt.split("/")[0]
+    days += (createdAtDay <= completedAtDay ? completedAtDay - createdAtDay : 30 - (createdAtDay - completedAtDay))
+    months += (createdAtMonth < completedAtMonth ? (12 - (createdAtMonth - completedAtMonth)) - 1 :  completedAtMonth - createdAtMonth)
+  })
+  etaDays = ((months * 30) + days) / completedTasks.length
+
+  firebase.db.collection("users").doc(localStorage.getItem("uid")).update({
+    tasksEta: moment().add(etaDays, 'days').format('LL'),
+    etaDays: isNaN(etaDays) ? 0 : etaDays
+  })
+
   return (
     <>
       <h2 className="task-progress-title" style={{marginTop: 0}}>
@@ -81,7 +104,7 @@ const TaskProgress = ({ tasks, completedTasks}) => {
 
         <div className="card eta-card">
           <div className="card-content">
-            <span>1<sup>st</sup> February 2020</span>
+            <span>{moment().add(etaDays, 'days').format('LL')}</span>
           </div>
           <div className="card-footer">
             <h3>ETA</h3>

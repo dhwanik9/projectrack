@@ -73,9 +73,14 @@ const MainView = () => {
         skills: data.skills,
         description: data.description,
         photoUrl: data.photoUrl,
+        position: data.position,
+        tasksEta: data.tasksEta,
+        etaDays: data.etaDays
       }
       localStorage.setItem("memberCount", team.length)
       localStorage.setItem(`member${index}`, JSON.stringify(user))
+    }).catch(er => {
+      alert(er)
     })
     return 0
   })

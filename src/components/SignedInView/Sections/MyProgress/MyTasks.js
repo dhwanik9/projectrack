@@ -5,6 +5,7 @@ import { CompletedTasks } from './CompletedTasks'
 import firebase from '../../../../backend/firebaseConfig'
 import { CircularProgress } from "@rmwc/circular-progress"
 import '@rmwc/circular-progress/circular-progress.css'
+import moment from 'moment'
 
 
 const MyTasks = () => {
@@ -23,7 +24,19 @@ const MyTasks = () => {
   }
   const markComplete = (index) => {
     deleteTask(index)
-    firebase.updateCompletedTaskData(uid, tasks[index])
+    const taskObj = {
+      id: tasks[index].id,
+      title: tasks[index].title,
+      description: tasks[index].description,
+      completeBy: tasks[index].completeBy,
+      createdAt: tasks[index].createdAt,
+      completedAt: moment().format("l"),
+    }
+    console.log(taskObj)
+    firebase.updateCompletedTaskData(uid, taskObj)
+    .catch(er => {
+      console.log("")
+    })
   }
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import firebase from '../../../../backend/firebaseConfig'
+import moment from 'moment'
 
 const OverallProjectProgress = ({ members }) => {
   const [tasks, setTasks] = useState([])
@@ -9,6 +10,10 @@ const OverallProjectProgress = ({ members }) => {
   let noOfTasks = 0
   let tasksCompleted = 0
   let tasksRemaining = 0
+  let daysTaken = 0
+  let eta = 0
+  let completedTasksLength = completedTasks.length ? completedTasks.length : 1
+  let remainingTasksLength = tasks.length
   const completeBy = localStorage.getItem("completeBy")
 
   useEffect(() => {
@@ -35,6 +40,13 @@ const OverallProjectProgress = ({ members }) => {
   noOfTasks = noOfTasksCompleted + noOfTasksRemaining
   tasksCompleted = Math.floor((noOfTasksCompleted / noOfTasks) * 100)
   tasksRemaining = 100 - tasksCompleted
+
+  members.map(member => {
+    daysTaken += member.etaDays
+    return 0
+  })
+  
+  eta = (daysTaken / completedTasksLength) * remainingTasksLength
 
   return (
     <>
@@ -109,7 +121,7 @@ const OverallProjectProgress = ({ members }) => {
 
         <div className="card eta-card">
           <div className="card-content">
-            <span>1<sup>st</sup> February 2020</span>
+            <span>{ moment().add(eta, 'days').format('LL') }</span>
           </div>
           <div className="card-footer">
             <h3>ETA</h3>
